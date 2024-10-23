@@ -1,5 +1,3 @@
-# TangTamNhu
-# TangTamNhu
 # Lab #1, 20110431, Tang Tam Nhu, INSE3308E_03FIE
 # Task 1: Software buffer overflow attack
  
