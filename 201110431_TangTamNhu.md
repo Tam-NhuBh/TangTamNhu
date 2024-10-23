@@ -66,7 +66,8 @@ Description text (optional)
   - Address value of exit: `0xf7e449e0` will be inserted with format `\xe0\x49\xe4\f7`
   - Address value of the string of `nhu`: `0xffffde58` will be inserted with format `\x58\xde\xff\xff`
  
-![img3]()
+![img3](![image](https://github.com/user-attachments/assets/0c4794c8-dc5f-456a-8db9-3cc5889ffb57)
+)
 
 - Examine the stack frame. We need to add 20 bytes of padding, followed by the system address (4 bytes), exit (4 bytes), and preload (4 bytes). Thus, this is our directive:
 ```
