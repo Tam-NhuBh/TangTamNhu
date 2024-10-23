@@ -43,11 +43,11 @@ void main() {
 Description text (optional)
 - We'll create 2 file `taskbuffer.c` and `shellcode.c` that contains 2 code content above
 - Here is the stack frame `taskbuffer.c` program:
-![stackframe](image-1.png)
+![stackframe](./img/image-1.png)
 
 - Compile `taskbuffer.c` program and `shellcode.c` program to executable code.
       
-![img0](image-2.png)
+![img0](./img/image-2.png)
 
 - We will use Code Insert to insert shellcode directly into the program.
 - We will create a payload that includes:
@@ -55,11 +55,11 @@ Description text (optional)
 - The shellcode address to override the program's return address.
 - Use an older bash and turn off randomly given stack value.
 
-![img1](image-3.png)
+![img1](./img/image-3.png)
 
 - Create environmet variable `nhu` with `export`
   
-![img2](image-4.png)
+![img2](./img/image-4.png)
 
 - We need to find the address of `system`, `exit` and `nhu` variable and load `taskbuffer.out` into `gdb` and find them.
   - Address value of system: `0xf7e50db0` will be inserted with format `\xb0\x0d\xe5\xf7`
@@ -96,11 +96,11 @@ output screenshot (optional)
 
 **Question 1**: Use sqlmap to get information about all available databases
 **Answer 1**: 
-- Use the command below to get users information and crack the password
+- Use the command below to get database
 ```
 python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=asd" --dbs --batch
 ```
-![sql2](image-5.png) 
+![sql2](./img/image-5.png) 
 
 **Question 2**: Use sqlmap to get tables, users information
 **Answer 2**: 
@@ -109,21 +109,21 @@ python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=
 python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=asd" --dbs --tables --batch
 
 ```
-![sql3](image-6.png)
+![sql3](./img/image-6.png)
 
 - Use the command below to get users information and crack the password
 ```
 python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=asd" --dump --batch
 ```
-![sql4](image-8.png)
+![sql4](./img/image-8.png)
 
 **Question 3**: Make use of John the Ripper to disclose the password of all database users from the above exploit
 **Answer 3**:
 - We already dumpped and stored the hashed password to a file for further exploit.
 - To identity the hash algorithm, we will use hashid which is a library in python (hashid -mj hash_pw.txt)
-![alt text](image-13.png)
+![alt text](./img/image-9.png)
 - According to Hashid, john, notably the raw-sha1 format, can be used to crack the encryption: https://github.com/openwall/john/blob/bleeding-jumbo/doc/INSTALL-UBUNTU
 ```
     john --format=Raw-SHA1 hash_pw.txt
 ```
-![alt text](./img/image-5.png)
+![alt text](./img/image-10.png)
