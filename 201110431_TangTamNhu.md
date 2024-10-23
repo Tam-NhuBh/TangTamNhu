@@ -126,4 +126,4 @@ python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=
 ```
     john --format=Raw-SHA1 hash_pw.txt
 ```
-![alt text](image-11.png)
+![alt text](./img/image-5.png)
