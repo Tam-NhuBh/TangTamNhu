@@ -116,4 +116,4 @@ python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=
 ```
 ![alt text](./img/image-10.png)
 
-asb
+asbsdas
